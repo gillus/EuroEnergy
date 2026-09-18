@@ -1,0 +1,44 @@
+name: Aggiorna dati Eurostat
+
+on:
+  schedule:
+    - cron: '0 5 3 * *' # il 3 di ogni mese alle 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Se Eurostat non risponde lo script esce con errore senza toccare public/data.
+      - run: npm run data
+      - name: Commit se i dati sono cambiati
+        id: commit
+        run: |
+          # meta.json cambia a ogni esecuzione (data del fetch): conta solo se cambiano i dati veri.
+          if git diff --quiet -- public/data ':!public/data/meta.json'; then
+            echo "Nessun dato nuovo."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git commit -m "Aggiorna dati Eurostat ($(date -u +%Y-%m-%d))"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      # I push fatti con GITHUB_TOKEN non attivano altre workflow: il deploy va lanciato esplicitamente.
+      - name: Avvia il deploy
+        if: steps.commit.outputs.changed == 'true'
+        run: gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}

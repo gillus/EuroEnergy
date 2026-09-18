@@ -1,0 +1,25 @@
+{
+  "fetchedAt": "2026-09-18T15:20:00.302Z",
+  "datasets": {
+    "demo_pjan": {
+      "label": "Population on 1 January by age and sex",
+      "updated": "2026-08-14T23:00:00+0200"
+    },
+    "nrg_ind_eff": {
+      "label": "Energy efficiency",
+      "updated": "2026-04-21T23:00:00+0200"
+    },
+    "nrg_ind_ren": {
+      "label": "Main indicators - share of renewable energy",
+      "updated": "2026-09-15T23:00:00+0200"
+    },
+    "nrg_ind_id": {
+      "label": "Energy imports dependency",
+      "updated": "2026-07-16T23:00:00+0200"
+    },
+    "nrg_bal_peh": {
+      "label": "Production of electricity and derived heat by type of fuel",
+      "updated": "2026-06-02T23:00:00+0200"
+    }
+  }
+}

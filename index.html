@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Produzione e consumi di energia nei paesi europei: rinnovabili, nucleare, mix elettrico e dipendenza dalle importazioni. Dati Eurostat." />
+    <title>EuroEnergy — l'energia in Europa, paese per paese</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <h1>EuroEnergy</h1>
+        <p>Produzione e consumi di energia in Europa, paese per paese · dati Eurostat</p>
+      </div>
+      <form class="controls" id="controls" onsubmit="return false">
+        <label>
+          <span>Indicatore</span>
+          <select id="group"></select>
+        </label>
+        <label>
+          <span>Dettaglio</span>
+          <select id="metric"></select>
+        </label>
+        <label class="toggle" id="per-capita-label">
+          <input type="checkbox" id="per-capita" />
+          <span>Pro capite</span>
+        </label>
+        <div class="year">
+          <span>Anno <output id="year-label"></output></span>
+          <div class="year-row">
+            <button type="button" id="play" aria-label="Riproduci l'andamento negli anni">▶</button>
+            <input type="range" id="year" min="0" max="0" step="1" />
+          </div>
+        </div>
+      </form>
+    </header>
+
+    <main class="layout">
+      <section class="map-card card">
+        <h2 id="map-title"></h2>
+        <p class="description" id="metric-description"></p>
+        <div id="map" class="chart map"></div>
+        <p class="hint">Clicca su un paese per vederne l'andamento · rotellina/pinch per lo zoom</p>
+      </section>
+
+      <aside class="panel card">
+        <h2 id="country-name"></h2>
+        <div class="reading">
+          <span id="country-value" class="big"></span>
+          <span id="country-rank" class="rank"></span>
+        </div>
+        <h3>Andamento nel tempo</h3>
+        <div id="trend" class="chart small"></div>
+        <h3 id="detail-title"></h3>
+        <div id="detail" class="chart medium"></div>
+      </aside>
+
+      <section class="ranking-card card">
+        <h3 id="ranking-title"></h3>
+        <div id="ranking" class="chart small"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Fonte: <a href="https://ec.europa.eu/eurostat/web/energy/database" target="_blank" rel="noopener">Eurostat</a>
+        — dataset <span id="datasets"></span>. Confini: © EuroGeographics per i confini amministrativi (GISCO).
+      </p>
+      <p id="updated"></p>
+    </footer>
+
+    <div id="error" class="error" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
